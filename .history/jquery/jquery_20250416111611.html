@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jQuery Toggle Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <button id="toggleBtn">Toggle Paragraph</button>
+  <p id="myPara">This is a paragraph that can be toggled.</p>
+
+  <script>
+    $(document).ready(function(){
+      $("#toggleBtn").click(function(){
+        $("#myPara").toggle(); // Toggle visibility
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direction Animation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #box {
+            background-color: #3498db;
+            width: 50px;
+            height: 50px;
+            position: relative;
+        }
+
+        button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<center></center>
+    <button id="left">Left</button>
+    <button id="right">Right</button>
+    <button id="up">Up</button>
+    <button id="down">Down</button>
+
+    <div id="box"></div>
+
+    <script>
+        $(document).ready(function(){
+            $("#left").click(function(){
+                $("#box").animate({ left: "-=50px" });
+            });
+            $("#right").click(function(){
+                $("#box").animate({ left: "+=50px" });
+            });
+            $("#up").click(function(){
+                $("#box").animate({ top: "-=50px" });
+            });
+            $("#down").click(function(){
+                $("#box").animate({ top: "+=50px" });
+            });
+        });
+    </script>
+
+</body>
+</html>

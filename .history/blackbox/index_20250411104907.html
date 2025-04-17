@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Management Limited - One of the Largest Ship Management Firms</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'fleet-blue': '#1a365d',
+                        'fleet-light': '#f8fafc',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Header/Navigation -->
+    <header class="fixed w-full bg-white shadow-md z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-2xl font-bold text-fleet-blue">
+                    Fleet Management
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-fleet-blue hover:text-blue-700">Home</a>
+                    <a href="/about" class="text-fleet-blue hover:text-blue-700">About</a>
+                    <a href="/services" class="text-fleet-blue hover:text-blue-700">Services</a>
+                    <a href="/careers" class="text-fleet-blue hover:text-blue-700">Careers</a>
+                    <a href="/media" class="text-fleet-blue hover:text-blue-700">Media</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-fleet-blue">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 bg-gradient-to-r from-blue-900 to-blue-700 text-white min-h-screen flex items-center">
+        <div class="container mx-auto px-6 py-24">
+            <h1 class="text-5xl md:text-7xl font-playfair font-bold mb-6">
+                Powered by People
+            </h1>
+            <h2 class="text-3xl md:text-4xl font-playfair mb-12">
+                People. Performance. Partnership.
+            </h2>
+            <p class="text-xl mb-8 max-w-2xl">
+                With a proud 30-year history, we are meticulous custodians of your vessels and cargo.
+            </p>
+            <a href="/about.html" class="bg-white text-blue-900 px-8 py-3 rounded-lg hover:bg-blue-100 transition duration-300">
+                About Us
+            </a>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-20 bg-fleet-light">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-fleet-blue mb-2">650+</div>
+                    <div class="text-gray-600">Vessels under management</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-fleet-blue mb-2">27,000</div>
+                    <div class="text-gray-600">Seafarers</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-fleet-blue mb-2">1,200</div>
+                    <div class="text-gray-600">Shore-based employees</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-fleet-blue mb-2">10</div>
+                    <div class="text-gray-600">Countries</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-fleet-blue mb-2">24</div>
+                    <div class="text-gray-600">Global offices</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-playfair font-bold mb-8 text-fleet-blue">
+                World-Class Fleet Management Services
+            </h2>
+            <div class="prose max-w-4xl text-gray-700 leading-relaxed">
+                <p class="mb-6">
+                    With the support of our teams of global professionals, we are shaping the future of ship management, ensuring that the goods and materials powering global economies are delivered swiftly and securely to their destinations.
+                </p>
+                <p class="mb-6">
+                    We are custodians of our clients' vessels and cargo, looking after them as if they were our own. A combination of experience, reliability, innovation and sheer passion have enabled us to become one of the world's leading providers of ship management services.
+                </p>
+                <p>
+                    Three main attributes form the core of our business: an unparalleled commitment to our people both onshore and at sea, client partnerships led by integrity and transparency, and a commitment to building the most innovative ship management company in the world.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values Sections -->
+    <section class="py-20 bg-fleet-light">
+        <div class="container mx-auto px-6">
+            <!-- People Section -->
+            <div class="mb-20">
+                <h3 class="text-2xl font-playfair font-bold mb-6 text-fleet-blue">
+                    People: Empowering Our Global Workforce
+                </h3>
+                <div class="prose max-w-4xl text-gray-700">
+                    <p class="mb-6">
+                        Seafaring is in our DNA. From our crews to our Chairman, maritime trade is what drives us. It is a passion shared by our commitment to the 27,000 seafarers and 1,200 shore-based colleagues we have working across 24 offices in 10 countries.
+                    </p>
+                    <p>
+                        Our talent development programmes provide comprehensive training, education, and mentoring opportunities, to equip our seafarers and employees with the skills needed to navigate an industry marked by digitalisation, automation, and regulatory requirements.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Partnerships Section -->
+            <div class="mb-20">
+                <h3 class="text-2xl font-playfair font-bold mb-6 text-fleet-blue">
+                    Partnerships: Tailored Solutions for Long-Term Success
+                </h3>
+                <div class="prose max-w-4xl text-gray-700">
+                    <p class="mb-6">
+                        We recognise that our role now extends beyond traditional ship management; our clients need partners and innovators as we navigate increasingly complex industry challenges together.
+                    </p>
+                    <p>
+                        The size of our operations – with more than 650+ ships under Technical Management and New Building Supervision services – provides us with the insight to identify trends early, enabling us to offer our clients fresh perspectives and solutions that anticipate emerging needs.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Performance Section -->
+            <div>
+                <h3 class="text-2xl font-playfair font-bold mb-6 text-fleet-blue">
+                    Performance: Driving Global Economic Growth with Operational Excellence
+                </h3>
+                <div class="prose max-w-4xl text-gray-700">
+                    <p class="mb-6">
+                        With a 240+ strong technical and operations team, we maintain vessels to the highest standards, ensuring compliance and operational excellence. From routine maintenance to managing complex technical challenges, we handle every aspect of vessel operations.
+                    </p>
+                    <p>
+                        Our focus on proactive maintenance helps reduce downtime while increasing efficiency and reliability, and delivering the performance our clients expect.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://images.pexels.com/photos/1554646/pexels-photo-1554646.jpeg" 
+                         alt="Ship Management" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-3 text-fleet-blue">Ship Management Services</h4>
+                        <p class="text-gray-600 mb-4">
+                            We provide comprehensive ship management services, ensuring vessels operate smoothly, safely and sustainably.
+                        </p>
+                        <a href="/services" class="text-blue-600 hover:text-blue-800">Learn More →</a>
+                    </div>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://images.pexels.com/photos/2144326/pexels-photo-2144326.jpeg" 
+                         alt="Crew Management" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-3 text-fleet-blue">Crew Management & Training</h4>
+                        <p class="text-gray-600 mb-4">
+                            We recruit, train, and manage highly skilled crews, providing ongoing development to ensure professional preparedness.
+                        </p>
+                        <a href="/services" class="text-blue-600 hover:text-blue-800">Learn More →</a>
+                    </div>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://images.pexels.com/photos/2850287/pexels-photo-2850287.jpeg" 
+                         alt="Newbuilding Supervision" 
+                         class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-3 text-fleet-blue">Newbuilding Supervision</h4>
+                        <p class="text-gray-600 mb-4">
+                            From initial design to delivery, our expert team ensures each new build meets the highest standards.
+                        </p>
+                        <a href="/services" class="text-blue-600 hover:text-blue-800">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-fleet-blue text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h5 class="text-xl font-bold mb-4">Fleet Management</h5>
+                    <p class="text-gray-300">
+                        One of the Largest Ship Management Firms
+                    </p>
+                </div>
+                <div>
+                    <h5 class="text-xl font-bold mb-4">Quick Links</h5>
+                    <ul class="space-y-2">
+                        <li><a href="/about" class="text-gray-300 hover:text-white">About Us</a></li>
+                        <li><a href="/services" class="text-gray-300 hover:text-white">Services</a></li>
+                        <li><a href="/careers" class="text-gray-300 hover:text-white">Careers</a></li>
+                        <li><a href="/media" class="text-gray-300 hover:text-white">Media</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xl font-bold mb-4">Services</h5>
+                    <ul class="space-y-2">
+                        <li><a href="/services" class="text-gray-300 hover:text-white">Ship Management</a></li>
+                        <li><a href="/services" class="text-gray-300 hover:text-white">Crew Management</a></li>
+                        <li><a href="/services" class="text-gray-300 hover:text-white">Newbuilding Supervision</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-xl font-bold mb-4">Contact</h5>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-envelope mr-2"></i> info@fleetship.com</li>
+                        <li><i class="fas fa-phone mr-2"></i> +1 234 567 8900</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> Global Headquarters</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
+                <p>&copy; 2024 Fleet Management Limited. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

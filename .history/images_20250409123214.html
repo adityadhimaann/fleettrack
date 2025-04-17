@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+    <!-- fixed inset 0 -->
+    <!-- image gallery -->
+     <div class="flex justify-center items-center gap-4 m-10">
+        <img src="/images/fleet1.jpg" alt="" class="w-32 h-32 rounded-md cursor-pointer hover:scale-105 transition" onclick="addimage(0)">
+        <img src="/images/fleet2.jpeg" alt="" class="w-32 h-32 rounded-md cursor-pointer hover:scale-105 transition" onclick="addimage(1)">
+        <img src="/images/fleet3.png" alt="" class="w-32 h-32 rounded-md cursor-pointer hover:scale-105 transition" onclick="addimage(2)">
+     </div>
+     <div class="fixed inset-0 flex items-center justify-center bg-black/50 hidden" id="model">
+        <img src="" id="imagemodel" alt="" class="max-h-[80vh] rounded-2xl">
+        <button id="prev" class="absolute left-5 text-white text-4xl cursor-pointer" onclick="prevImage(0)"><i class="fa-solid fa-chevron-right"></i></button>
+        <button></button>
+        <button id="next" class="absolute right-5 text-white text-4xl cursor-pointer" onclick="prevImage(1)"><i class="fa-solid fa-chevron-left"></i></button>
+     </div>
+</body>
+</html>

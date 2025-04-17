@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hide and Show Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    #textBox {
+      width: 300px;
+      height: 100px;
+      background-color: lightgreen;
+      text-align: center;
+      line-height: 100px;
+      margin: 20px auto;
+      border: 1px solid #444;
+      font-family: sans-serif;
+    }
+    .btn {
+      margin: 5px;
+      padding: 8px 12px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="textBox">This is a paragraph</div>
+
+  <div style="text-align: center;">
+    <button class="btn" id="hideBtn">Hide</button>
+    <button class="btn" id="showBtn">Show</button>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("#hideBtn").click(function(){
+        $("#textBox").hide();
+      });
+
+      $("#showBtn").click(function(){
+        $("#textBox").show();
+      });
+    });
+  </script>
+
+</body>
+</html>

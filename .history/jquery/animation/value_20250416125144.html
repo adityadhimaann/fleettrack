@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Form</title>
+  <script src="/jquery-3.7.1.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col justify-center items-center min-h-screen bg-gray-100 space-y-6">
+
+  <h1 class="text-3xl font-bold text-gray-800">Simple Form</h1>
+
+  <input 
+    type="text" 
+    id="input" 
+    class="border border-gray-300 p-3 rounded w-64 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400" 
+    placeholder="Enter something..." 
+    aria-label="Text Input"
+  >
+
+  <div class="space-x-3">
+    <button 
+      id="setValue" 
+      class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded shadow"
+    >
+      Set Value
+    </button>
+    <button 
+      id="clearValue" 
+      class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded shadow"
+    >
+      Clear Value
+    </button>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $("#setValue").click(function() {
+        $("#input").val("hello there");
+      });
+
+      $("#clearValue").click(function() {
+        $("#input").val("");
+      });
+    });
+  </script>
+
+</body>
+</html>

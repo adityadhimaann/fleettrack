@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hide and Show Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <div id="textBox" style="text-align: center;">Toggle between hiding and showing the paragraphs</div>
+  <p>This is a paragraph with little content.</p>
+  <p>This is another small paragraph.</p>
+
+  <div style="text-align: center;">
+    <button class="btn" id="hideBtn">Hide</button>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("#hideBtn").click(function(){
+        $("p").toggle(); // toggle paragraphs instead of #textBox
+      });
+    });
+    
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h1 id="heading1">LOVELY PROFESSIONAL UNIVERSITY</h1>
+    <p id="para1">India</p>
+    <h2 id="heading2">Punjab</h2>
+
+    <img id="img1" height="100%" width="100%" src="https://images.shiksha.com/mediadata/images/articles/1655635763phpVQHm5C.jpeg" alt=""><br>
+
+    <a href="https://www.lpu.in" id="lpu">lpu.in</a><br><br>
+
+    <button id="btn1">TEXT</button>
+    <button id="btn2">HTML</button>
+    <button id="btn3">ATTRIBUTE</button>
+
+    <script>
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                let text = $("#heading1").text();
+                alert(text);
+            });
+
+            $("#btn2").click(function(){
+                let text = $("#heading2").text();
+                alert(text);
+            });
+
+            $("#btn3").click(function(){
+                let text = $("#para1").text();
+                alert(text);
+            });
+
+            $("#img1").click(function(){
+                let text = $("#heading1").text();
+                alert("Image clicked, heading is: " + text);
+            });
+        });
+    </script>
+
+</body>
+</html>

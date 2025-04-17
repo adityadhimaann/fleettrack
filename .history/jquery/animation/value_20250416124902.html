@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/jquery-3.7.1.js"></script>
+    <script scr="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex justify-center items-center">
+    <h1>Form</h1>
+    <input type="text" name="" id="input">
+    <br><br>
+    <button id="setValue">Set Value</button>
+    <button id="clearValue">Clear Value</button>
+    <script>
+        $("#setValue").click(function(){
+            $('input').val("hello there");
+        });
+        $("clearValue").click(function(){
+            $('#input').val("")
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <button>Start animation</button>
+    <div style="height:100px; width:100px; opacity: '0.5'; left: ''"></div>
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){
+                $("div").animate({left: '50%'});
+            });
+        });
+    </script>
+</body>
+</html>

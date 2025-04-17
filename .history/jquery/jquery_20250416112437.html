@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Enter and Leave Example</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <div id="hoverBox" style="width:200px; height:100px; background:#ddd; text-align:center; line-height:100px;">
+    Hover over me!
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $("#hoverBox").mouseenter(function(){
+        alert("You entered p1");
+      });
+      $("#hoverBox").mouseleave(function(){
+        alert("You left p1");
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetTrack - Fleet Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Main Container -->
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-gray-800">
+                <div class="flex items-center justify-center h-16 bg-gray-900">
+                    <img class="w-10 h-10 mb " src="./fleet3.png" alt="Logo" class="mr-2">
+                    <span class="text-white font-bold text-lg">FleetTrack</span>
+                </div>
+                <div class="flex-1 flex flex-col overflow-y-auto">
+                    <nav class="flex-1 px-2 py-4 bg-gray-800">
+                        <a href="#" id="" class="flex items-center px-4 py-2 text-white bg-gray-700 rounded-md">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            Home
+                        </a>
+                        <a href="#" id="dashboardBtn" class="flex items-center px-4 py-2 text-white bg-gray-700 rounded-md">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            Dashboard
+                        </a>
+                        <a href="#" id="vehiclesBtn" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md">
+                            <i class="fas fa-truck mr-3"></i>
+                            Vehicles
+                        </a>
+                        <a href="#" id="driversBtn" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md">
+                            <i class="fas fa-user mr-3"></i>
+                            Drivers
+                        </a>
+                        <a href="#" id="trackingBtn" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md">
+                            <i class="fas fa-map-marker-alt mr-3"></i>
+                            Tracking
+                        </a>
+                        <a href="#" id="maintenanceBtn" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md">
+                            <i class="fas fa-wrench mr-3"></i>
+                            Maintenance
+                        </a>
+                        <a href="#" id="fuelBtn" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md">
+                            <i class="fas fa-gas-pump mr-3"></i>
+                            Fuel
+                        </a>
+                        <a href="#" id="reportsBtn" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md">
+                            <i class="fas fa-file-invoice mr-3"></i>
+                            Reports
+                        </a>
+                        <a href="#" id="settingsBtn" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md">
+                            <i class="fas fa-cog mr-3"></i>
+                            Settings
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex-shrink-0 flex border-t border-gray-700 p-4">
+                    <a href="#" id="profileBtn" class="flex-shrink-0 w-full group block">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="inline-block h-9 w-9 rounded-full" src="/api/placeholder/36/36" alt="Profile">
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white">John Doe</p>
+                                <p class="text-xs font-medium text-gray-400">Admin</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Top Nav -->
+            <div class="bg-white shadow">
+                <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex">
+                            <div class="flex-shrink-0 flex items-center md:hidden">
+                                <button id="menuBtn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                                    <i class="fas fa-bars"></i>
+                                </button>
+                            </div>
+                            <div class="hidden md:ml-6 md:flex md:items-center">
+                                <span id="pageTitle" class="text-xl font-semibold text-gray-800">Dashboard</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <button id="notificationBtn" class="p-1 border-2 border-transparent text-gray-500 rounded-full hover:text-gray-700 focus:outline-none relative">
+                                    <i class="fas fa-bell"></i>
+                                    <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
+                                </button>
+                            </div>
+                            <div class="ml-4 relative flex-shrink-0">
+                                <div>
+                                    <button id="userMenuBtn" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none">
+                                        <img class="h-8 w-8 rounded-full" src="/api/placeholder/32/32" alt="User">
+                                    </button>
+                                </div>
+                                <div id="userDropdown" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+                                    <div class="py-1">
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="fixed inset-0 flex z-40 md:hidden hidden">
+                <div class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
+                <div class="relative flex-1 flex flex-col max-w-xs w-full bg-gray-800">
+                    <div class="flex items-center justify-between px-4 pt-5 pb-4">
+                        <div>
+                            <span class="text-white font-bold text-lg">FleetTrack</span>
+                        </div>
+                        <button id="closeMenuBtn" class="text-gray-300 rounded-md focus:outline-none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="flex-1 h-0 overflow-y-auto">
+                        <nav class="px-2 py-4">
+                            <a href="#" class="mobile-nav-item flex items-center px-4 py-2 text-white bg-gray-700 rounded-md" data-page="dashboard">
+                                <i class="fas fa-tachometer-alt mr-3"></i>
+                                Dashboard
+                            </a>
+                            <a href="#" class="mobile-nav-item flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md" data-page="vehicles">
+                                <i class="fas fa-truck mr-3"></i>
+                                Vehicles
+                            </a>
+                            <a href="#" class="mobile-nav-item flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md" data-page="drivers">
+                                <i class="fas fa-user mr-3"></i>
+                                Drivers
+                            </a>
+                            <a href="#" class="mobile-nav-item flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md" data-page="tracking">
+                                <i class="fas fa-map-marker-alt mr-3"></i>
+                                Tracking
+                            </a>
+                            <a href="#" class="mobile-nav-item flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md" data-page="maintenance">
+                                <i class="fas fa-wrench mr-3"></i>
+                                Maintenance
+                            </a>
+                            <a href="#" class="mobile-nav-item flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md" data-page="fuel">
+                                <i class="fas fa-gas-pump mr-3"></i>
+                                Fuel
+                            </a>
+                            <a href="#" class="mobile-nav-item flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md" data-page="reports">
+                                <i class="fas fa-file-invoice mr-3"></i>
+                                Reports
+                            </a>
+                            <a href="#" class="mobile-nav-item flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-700 rounded-md" data-page="settings">
+                                <i class="fas fa-cog mr-3"></i>
+                                Settings
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notification Panel -->
+            <div id="notificationPanel" class="fixed inset-0 flex z-40 hidden">
+                <div class="fixed inset-0 bg-gray-600 bg-opacity-0" id="closeNotifications"></div>
+                <div class="absolute top-16 right-4 w-80 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
+                    <div class="px-4 py-3 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">Notifications</h3>
+                    </div>
+                    <div class="divide-y divide-gray-200">
+                        <div class="px-4 py-3 bg-yellow-50 hover:bg-yellow-100">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 pt-0.5">
+                                    <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+                                </div>
+                                <div class="ml-3 w-0 flex-1">
+                                    <p class="text-sm font-medium text-gray-900">Maintenance Alert</p>
+                                    <p class="text-sm text-gray-500">Truck 303 engine repair in progress.</p>
+                                    <p class="text-xs text-gray-400 mt-1">10 minutes ago</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 hover:bg-gray-50">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 pt-0.5">
+                                    <i class="fas fa-gas-pump text-blue-500"></i>
+                                </div>
+                                <div class="ml-3 w-0 flex-1">
+                                    <p class="text-sm font-medium text-gray-900">Fuel Alert</p>
+                                    <p class="text-sm text-gray-500">Van 202 fuel level below 25%.</p>
+                                    <p class="text-xs text-gray-400 mt-1">35 minutes ago</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-4 py-3 hover:bg-gray-50">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 pt-0.5">
+                                    <i class="fas fa-calendar-check text-green-500"></i>
+                                </div>
+                                <div class="ml-3 w-0 flex-1">
+                                    <p class="text-sm font-medium text-gray-900">Scheduled Maintenance</p>
+                                    <p class="text-sm text-gray-500">Van 505 scheduled for service tomorrow.</p>
+                                    <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-3 border-t border-gray-200 text-center">
+                        <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500">View all notifications</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto bg-gray-100 p-6">
+                <!-- Dashboard Section -->
+                <div id="dashboardContent" class="space-y-6">
+                    <!-- Welcome Banner -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="bg-blue-600 px-6 py-4">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-xl font-bold text-white">Welcome to FleetTrack</h2>
+                                <button class="px-4 py-2 bg-white text-blue-600 rounded hover:bg-blue-50">Quick Tour</button>
+                            </div>
+                        </div>
+                        <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="flex items-center">
+                                <img src="/api/placeholder/48/48" alt="Fleet" class="mr-3">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Manage Your Fleet</h3>
+                                    <p class="text-sm text-gray-600">Track and manage all your vehicles in one place</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="/api/placeholder/48/48" alt="Analytics" class="mr-3">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Fleet Analytics</h3>
+                                    <p class="text-sm text-gray-600">Get insights from real-time analytics</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="/api/placeholder/48/48" alt="Reports" class="mr-3">
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">Detailed Reports</h3>
+                                    <p class="text-sm text-gray-600">Generate comprehensive reports</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Stats Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                                    <i class="fas fa-truck text-white"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h2 class="text-sm font-medium text-gray-600">Total Vehicles</h2>
+                                    <p class="text-2xl font-semibold text-gray-800" id="totalVehicles">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                                    <i class="fas fa-user text-white"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h2 class="text-sm font-medium text-gray-600">Active Drivers</h2>
+                                    <p class="text-2xl font-semibold text-gray-800" id="activeDrivers">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+                                    <i class="fas fa-road text-white"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h2 class="text-sm font-medium text-gray-600">Total Distance</h2>
+                                    <p class="text-2xl font-semibold text-gray-800" id="totalDistance">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 bg-red-500 rounded-md p-3">
+                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h2 class="text-sm font-medium text-gray-600">Maintenance Alerts</h2>
+                                    <p class="text-2xl font-semibold text-gray-800" id="maintenanceAlerts">0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts Section -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-semibold text-gray-800">Fuel Consumption</h2>
+                                <div class="flex space-x-2">
+                                    <button class="px-3 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Weekly</button>
+                                    <button class="px-3 py-1 text-xs bg-blue-600 text-white rounded">Monthly</button>
+                                    <button class="px-3 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Yearly</button>
+                                </div>
+                            </div>
+                            <canvas id="fuelChart" height="200"></canvas>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-semibold text-gray-800">Monthly Mileage</h2>
+                                <div class="flex space-x-2">
+                                    <button class="px-3 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Weekly</button>
+                                    <button class="px-3 py-1 text-xs bg-blue-600 text-white rounded">Monthly</button>
+                                    <button class="px-3 py-1 text-xs bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Yearly</button>
+                                </div>
+                            </div>
+                            <canvas id="mileageChart" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Overview -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-800">Fleet Location Overview</h3>
+                            <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">View Full Map</button>
+                        </div>
+                        <div class="p-6">
+                            <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg relative">
+                                <img src="/api/placeholder/800/400" alt="Map" class="w-full h-64 object-cover rounded-lg">
+                                <!-- Map Pins -->
+                                <div class="absolute top-1/4 left-1/4 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white" title="Truck 101">
+                                    <i class="fas fa-truck text-xs"></i>
+                                </div>
+                                <div class="absolute top-1/3 left-2/3 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white" title="Van 202">
+                                    <i class="fas fa-truck text-xs"></i>
+                                </div>
+                                <div class="absolute top-2/3 left-1/2 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white" title="Truck 404">
+                                    <i class="fas fa-truck text-xs"></i>
+                                </div>
+                                <div class="absolute top-1/2 left-3/4 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white" title="Van 505">
+                                    <i class="fas fa-truck text-xs"></i>
+                                </div>
+                                <div class="absolute bottom-1/4 left-1/5 w-6 h-6 bg-red-600 rounded-full flex items-center justify-center text-white" title="Truck 303 (Maintenance)">
+                                    <i class="fas fa-truck text-xs"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-5 gap-4">
+                                <div class="col-span-5 md:col-span-2">
+                                    <h4 class="font-medium text-gray-700 mb-2">Active Vehicle Locations</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Truck 101</span>
+                                            <span class="text-gray-900">Chicago, IL</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Van 202</span>
+                                            <span class="text-gray-900">Detroit, MI</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Truck 404</span>
+                                            <span class="text-gray-900">Indianapolis, IN</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-gray-600">Van 505</span>
+                                            <span class="text-gray-900">Columbus, OH</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-span-5 md:col-span-3">
+                                    <h4 class="font-medium text-gray-700 mb-2">Recent Vehicle Activity</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center text-sm">
+                                            <i class="fas fa-circle text-xs text-green-500 mr-2"></i>
+                                            <span class="text-gray-900">Truck 101 arrived at Chicago warehouse (10 min ago)</span>
+                                        </div>
+                                        <div class="flex items-center text-sm">
+                                            <i class="fas fa-circle text-xs text-blue-500 mr-2"></i>
+                                            <span class="text-gray-900">Van 202 departing from Detroit delivery center (35 min ago)</span>
+                                        </div>
+                                        <div class="flex items-center text-sm">
+                                            <i class="fas fa-circle text-xs text-red-500 mr-2"></i>
+                                            <span class="text-gray-900">Truck 303 entered maintenance facility (2 hrs ago)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vehicles Status Section -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-800">Vehicle Status</h3>
+                            <button id="addVehicleBtn" class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">Add Vehicle</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Driver</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fuel</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200" id="vehiclesTableBody">
+                                    <!-- Table rows will be added dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                            <div class="flex-1 flex justify-between sm:hidden">
+                                <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Previous</a>
+                                <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Next</a>
+                            </div>
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700">
+                                        Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">12</span> vehicles
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600 hover:bg-blue-100">1</a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">4</a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">5</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity Section -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                            <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
+                        </div>
+                        <div class="flow-root p-6">
+                            <ul class="-mb-8">
+                                <li>
+                                    <div class="relative pb-8">
+                                        <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                        <div class="relative flex space-x-3">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-gas-pump text-white text-sm"></i>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                <div>
+                                                    <p class="text-sm text-gray-700">Van 505 refueled at Columbus Gas Station</p>
+                                                </div>
+                                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                    <span>30 minutes ago</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="relative pb-8">
+                                        <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                        <div class="relative flex space-x-3">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-truck text-white text-sm"></i>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                <div>
+                                                    <p class="text-sm text-gray-700">Truck 101 arrived at Chicago Warehouse</p>
+                                                </div>
+                                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                    <span>1 hour ago</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="relative pb-8">
+                                        <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                        <div class="relative flex space-x-3">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-red-500 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-wrench text-white text-sm"></i>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                <div>
+                                                    <p class="text-sm text-gray-700">Truck 303 reported engine issue, sent to maintenance</p>
+                                                </div>
+                                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                    <span>2 hours ago</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="relative pb-8">
+                                        <div class="relative flex space-x-3">
+                                            <div>
+                                                <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                    <i class="fas fa-user text-white text-sm"></i>
+                                                </span>
+                                            </div>
+                                            <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                <div>
+                                                    <p class="text-sm text-gray-700">Driver Mike Johnson assigned to Van 202</p>
+                                                </div>
+                                                <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                    <span>3 hours ago</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-4 border-t border-gray-200 sm:px-6 text-center">
+                            <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500">View all activity</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vehicles Section -->
+                <div id="vehiclesContent" class="hidden space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-2xl font-semibold text-gray-800">Vehicles Management</h1>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Add New Vehicle</button>
+                    </div>
+                    
+                    <!-- Vehicles Filter Section -->
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label for="vehicleType" class="block text-sm font-medium text-gray-700">Vehicle Type</label>
+                                <select id="vehicleType" name="vehicleType" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                    <option value="">All Types</option>
+                                    <option value="truck">Truck</option>
+                                    <option value="van">Van</option>
+                                    <option value="car">Car</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="vehicleStatus" class="block text-sm font-medium text-gray-700">Status</label>
+                                <select id="vehicleStatus" name="vehicleStatus" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                    <option value="">All Statuses</option>
+                                    <option value="active">Active</option>
+                                    <option value="maintenance">Maintenance</option>
+                                    <option value="idle">Idle</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="vehicleSearch" class="block text-sm font-medium text-gray-700">Search</label>
+                                <div class="mt-1 relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-search text-gray-400"></i>
+                                    </div>
+                                    <input type="text" name="vehicleSearch" id="vehicleSearch" class="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md" placeholder="Vehicle ID, Model">
+                                </div>
+                            </div>
+                            <div class="flex items-end">
+                                <button type="button" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Apply Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vehicles Table -->
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Model</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">License</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Current Driver</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200" id="vehiclesDetailTableBody">
+                                    <!-- Vehicle rows will be added here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700">
+                                        Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">23</span> vehicles
+                                    </p>
+                                </div>
+                                <div>
+                                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-blue-50 text-sm font-medium text-blue-600 hover:bg-blue-100">1</a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">2</a>
+                                        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</a>
+                                        <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional section placeholders for other menu items -->
+                <div id="driversContent" class="hidden">
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Drivers Management</h1>
+                    <p class="text-gray-500">Drivers content goes here...</p>
+                </div>
+                
+                <div id="trackingContent" class="hidden">
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Live Tracking</h1>
+                    <p class="text-gray-500">Tracking content goes here...</p>
+                </div>
+                
+                <div id="maintenanceContent" class="hidden">
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Maintenance Management</h1>
+                    <p class="text-gray-500">Maintenance content goes here...</p>
+                </div>
+                
+                <div id="fuelContent" class="hidden">
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Fuel Management</h1>
+                    <p class="text-gray-500">Fuel content goes here...</p>
+                </div>
+                
+                <div id="reportsContent" class="hidden">
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Reports Generation</h1>
+                    <p class="text-gray-500">Reports content goes here...</p>
+                </div>
+                
+                <div id="settingsContent" class="hidden">
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-6">System Settings</h1>
+                    <p class="text-gray-500">Settings content goes here...</p>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Add Vehicle Modal -->
+    <div id="addVehicleModal" class="fixed z-50 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <i class="fas fa-truck text-blue-600"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">Add New Vehicle</h3>
+                            <div class="mt-4 grid grid-cols-1 gap-4">
+                                <div>
+                                    <label for="vehicleID" class="block text-sm font-medium text-gray-700">Vehicle ID</label>
+                                    <input type="text" name="vehicleID" id="vehicleID" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label for="vehicleTypeModal" class="block text-sm font-medium text-gray-700">Vehicle Type</label>
+                                    <select id="vehicleTypeModal" name="vehicleTypeModal" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                        <option value="truck">Truck</option>
+                                        <option value="van">Van</option>
+                                        <option value="car">Car</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="vehicleModel" class="block text-sm font-medium text-gray-700">Model</label>
+                                    <input type="text" name="vehicleModel" id="vehicleModel" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="vehicleYear" class="block text-sm font-medium text-gray-700">Year</label>
+                                        <input type="number" name="vehicleYear" id="vehicleYear" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    </div>
+                                    <div>
+                                        <label for="vehicleLicense" class="block text-sm font-medium text-gray-700">License Plate</label>
+                                        <input type="text" name="vehicleLicense" id="vehicleLicense" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="saveVehicleBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Save
+                    </button>
+                    <button type="button" id="closeVehicleModalBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for vehicles
+        const vehiclesData = [
+            { id: "Truck 101", driver: "John Smith", status: "Active", location: "Chicago, IL", fuel: "80%", lastUpdated: "10 min ago" },
+            { id: "Van 202", driver: "Mike Johnson", status: "Active", location: "Detroit, MI", fuel: "25%", lastUpdated: "35 min ago" },
+            { id: "Truck 303", driver: "Unassigned", status: "Maintenance", location: "Indianapolis, IN", fuel: "60%", lastUpdated: "2 hrs ago" },
+            { id: "Truck 404", driver: "Sarah Wilson", status: "Active", location: "Indianapolis, IN", fuel: "45%", lastUpdated: "1 hr ago" },
+            { id: "Van 505", driver: "Alex Thompson", status: "Active", location: "Columbus, OH", fuel: "90%", lastUpdated: "30 min ago" }
+        ];
+        
+        // Sample data for detailed vehicles
+        const vehiclesDetailData = [
+            { id: "Truck 101", type: "Truck", model: "Ford F-650", year: "2022", license: "TRK-101", status: "Active", driver: "John Smith" },
+            { id: "Van 202", type: "Van", model: "Mercedes Sprinter", year: "2021", license: "VAN-202", status: "Active", driver: "Mike Johnson" },
+            { id: "Truck 303", type: "Truck", model: "Volvo VNL", year: "2020", license: "TRK-303", status: "Maintenance", driver: "Unassigned" },
+            { id: "Truck 404", type: "Truck", model: "Freightliner M2", year: "2022", license: "TRK-404", status: "Active", driver: "Sarah Wilson" },
+            { id: "Van 505", type: "Van", model: "Ford Transit", year: "2023", license: "VAN-505", status: "Active", driver: "Alex Thompson" }
+        ];
+        
+        // Initialize dashboard stats
+        document.getElementById('totalVehicles').textContent = '12';
+        document.getElementById('activeDrivers').textContent = '10';
+        document.getElementById('totalDistance').textContent = '15,480 mi';
+        document.getElementById('maintenanceAlerts').textContent = '2';
+        
+        // Populate vehicles table
+        const vehiclesTableBody = document.getElementById('vehiclesTableBody');
+        vehiclesData.forEach(vehicle => {
+            const row = document.createElement('tr');
+            const statusClass = vehicle.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+            const fuelClass = parseInt(vehicle.fuel) < 30 ? 'text-red-500' : 'text-green-500';
+            
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <i class="fas fa-truck text-gray-500 mr-2"></i>
+                        <div class="text-sm font-medium text-gray-900">${vehicle.id}</div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">${vehicle.driver}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                        ${vehicle.status}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${vehicle.location}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <i class="fas fa-gas-pump ${fuelClass} mr-2"></i>
+                        <div class="text-sm ${fuelClass}">${vehicle.fuel}</div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${vehicle.lastUpdated}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="#" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                    <a href="#" class="text-blue-600 hover:text-blue-900">Edit</a>
+                </td>
+            `;
+            vehiclesTableBody.appendChild(row);
+        });
+        
+        // Initialize Charts
+        const ctx1 = document.getElementById('fuelChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Fuel Consumption (gallons)',
+                    data: [450, 480, 460, 520, 490, 475],
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        const ctx2 = document.getElementById('mileageChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Total Mileage',
+                    data: [2500, 2800, 2600, 3100, 2900, 3200],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+        
+        // Navigation handling
+        const contentSections = ['dashboard', 'vehicles', 'drivers', 'tracking', 'maintenance', 'fuel', 'reports', 'settings'];
+        
+        function showContent(contentId) {
+            // Hide all content sections
+            contentSections.forEach(section => {
+                document.getElementById(`${section}Content`).classList.add('hidden');
+            });
+            
+            // Show selected content
+            document.getElementById(`${contentId}Content`).classList.remove('hidden');
+            
+            // Update page title
+            document.getElementById('pageTitle').textContent = contentId.charAt(0).toUpperCase() + contentId.slice(1);
+            
+            // Update active state in navigation
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('bg-gray-700', 'text-white');
+                link.classList.add('text-gray-300', 'hover:bg-gray-700');
+            });
+            
+            document.getElementById(`${contentId}Btn`).classList.add('bg-gray-700', 'text-white');
+            document.getElementById(`${contentId}Btn`).classList.remove('text-gray-300', 'hover:bg-gray-700');
+            
+            // Close mobile menu
+            document.getElementById('mobileMenu').classList.add('hidden');
+        }
+        
+        // Setup event listeners for navigation
+        contentSections.forEach(section => {
+            document.getElementById(`${section}Btn`).addEventListener('click', () => showContent(section));
+        });
+        
+        // Mobile navigation
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                showContent(item.getAttribute('data-page'));
+            });
+        });
+        
+        // Mobile menu toggle
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.remove('hidden');
+        });
+        
+        document.getElementById('closeMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.add('hidden');
+        });
+        
+        // User dropdown toggle
+        document.getElementById('userMenuBtn').addEventListener('click', () => {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('hidden');
+        });
+        
+        // Notification panel toggle
+        document.getElementById('notificationBtn').addEventListener('click', () => {
+            document.getElementById('notificationPanel').classList.toggle('hidden');
+        });
+        
+        document.getElementById('closeNotifications').addEventListener('click', () => {
+            document.getElementById('notificationPanel').classList.add('hidden');
+        });
+        
+        // Add vehicle modal
+        document.getElementById('addVehicleBtn').addEventListener('click', () => {
+            document.getElementById('addVehicleModal').classList.remove('hidden');
+        });
+        
+        document.getElementById('closeVehicleModalBtn').addEventListener('click', () => {
+            document.getElementById('addVehicleModal').classList.add('hidden');
+        });
+        
+        document.getElementById('saveVehicleBtn').addEventListener('click', () => {
+            // Here would go the logic to save the new vehicle
+            document.getElementById('addVehicleModal').classList.add('hidden');
+        });
+        
+        // Populate vehicles detail table
+        const vehiclesDetailTableBody = document.getElementById('vehiclesDetailTableBody');
+        if (vehiclesDetailTableBody) {
+            vehiclesDetailData.forEach(vehicle => {
+                const row = document.createElement('tr');
+                const statusClass = vehicle.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${vehicle.id}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vehicle.type}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vehicle.model}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vehicle.year}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vehicle.license}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                            ${vehicle.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${vehicle.driver}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <a href="#" class="text-blue-600 hover:text-blue-900 mr-2">View</a>
+                        <a href="#" class="text-blue-600 hover:text-blue-900 mr-2">Edit</a>
+                        <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                    </td>
+                `;
+                vehiclesDetailTableBody.appendChild(row);
+            });
+        }
+
+        // Initialize page to dashboard view
+        showContent('dashboard');
+
+        // Initialize event listeners for search and filter interactions
+        document.getElementById('searchInput')?.addEventListener('keyup', function(e) {
+            // Search functionality would go here
+            console.log('Searching for:', e.target.value);
+        });
+
+        // Event listener for window click to close dropdowns
+        window.addEventListener('click', function(event) {
+            if (!event.target.matches('#userMenuBtn') && !event.target.closest('#userDropdown')) {
+                const dropdown = document.getElementById('userDropdown');
+                if (!dropdown.classList.contains('hidden')) {
+                    dropdown.classList.add('hidden');
+                }
+            }
+            
+            if (!event.target.matches('#notificationBtn') && !event.target.closest('#notificationPanel')) {
+                const panel = document.getElementById('notificationPanel');
+                if (!panel.classList.contains('hidden')) {
+                    panel.classList.add('hidden');
+                }
+            }
+        });
+
+        // Set up refresh buttons functionality
+        document.querySelectorAll('.refresh-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const section = this.getAttribute('data-section');
+                console.log(`Refreshing ${section} section`);
+                // Refresh logic for each section would go here
+            });
+        });
+    </script>
+</body>
+</html>
