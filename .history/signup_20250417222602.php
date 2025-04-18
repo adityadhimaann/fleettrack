@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = ""; // or your MySQL password
-$dbname = "fleetdb";
+$dbname = "fleetmaster";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
