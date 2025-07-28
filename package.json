@@ -1,23 +1,53 @@
 {
-  "name": "tailwindcss",
-  "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "name": "fleettrack",
+  "version": "2.0.0",
+  "description": "Enhanced Fleet Management System with modern web technologies",
+  "main": "js/app.js",
   "scripts": {
-    "start": "tailwindcss -i ./styles.css -o ./output.css --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tailwindcss -i ./style.css -o ./dist/style.css --watch",
+    "build": "tailwindcss -i ./style.css -o ./dist/style.css --minify",
+    "start": "php -S localhost:8000",
+    "init": "php init.php",
+    "watch": "npm run dev",
+    "lint": "eslint js/**/*.js",
+    "lint:fix": "eslint js/**/*.js --fix",
+    "test": "echo \"Tests will be implemented in future versions\" && exit 0",
+    "clean": "rm -rf dist/ logs/",
+    "setup": "npm install && npm run build && npm run init"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "fleet-management",
+    "vehicle-tracking",
+    "php",
+    "mysql",
+    "tailwindcss",
+    "dashboard",
+    "logistics"
+  ],
+  "author": "FleetTrack Team",
+  "license": "MIT",
   "type": "commonjs",
+  "engines": {
+    "node": ">=14.0.0",
+    "php": ">=7.4.0"
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.3"
+    "tailwindcss": "^4.1.3",
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.3",
     "@tailwindcss/vite": "^4.1.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/fleettrack.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/fleettrack/issues"
+  },
+  "homepage": "https://github.com/yourusername/fleettrack#readme"
 }

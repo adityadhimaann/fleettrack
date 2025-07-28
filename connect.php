@@ -1,80 +1,82 @@
 <?php
-// Enable error reporting for debugging
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-// Database configuration
-$host = "localhost";
-$dbname = "test";
-$user = "root";
-$pass = "";
+require_once 'config.php';
+require_once 'classes/Database.php';
+require_once 'classes/Auth.php';
+require_once 'classes/Validator.php';
 
 // Function to send standardized responses
-function sendResponse($success, $message) {
+function sendResponse($success, $message, $data = null) {
     header('Content-Type: application/json');
-    echo json_encode([
+    $response = [
         'success' => $success,
         'message' => $message
-    ]);
+    ];
+    
+    if ($data !== null) {
+        $response['data'] = $data;
+    }
+    
+    echo json_encode($response);
     exit;
 }
+
 // Check request method
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405);
     sendResponse(false, "Method Not Allowed");
 }
 
-// Validate required fields
-$requiredFields = ['firstName', 'lastName', 'gender', 'email', 'password', 'number'];
-foreach ($requiredFields as $field) {
-    if (!isset($_POST[$field]) || empty(trim($_POST[$field]))) {
-        sendResponse(false, "Field '$field' is required.");
-    }
+// Check CSRF token
+$auth = new Auth();
+if (!isset($_POST['csrf_token']) || !$auth->verifyCSRFToken($_POST['csrf_token'])) {
+    sendResponse(false, "Invalid security token. Please refresh the page and try again.");
 }
-
-// Sanitize and validate inputs
-$firstName = htmlspecialchars(trim($_POST['firstName']));
-$lastName = htmlspecialchars(trim($_POST['lastName']));
-$gender = htmlspecialchars(trim($_POST['gender']));
-$email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
-$number = preg_replace('/\D/', '', $_POST['number']); // Strip non-digit characters
-
-// Validate gender
-if (!in_array($gender, ['m', 'f', 'o'])) {
-    sendResponse(false, "Invalid gender selected.");
-}
-
-// Validate email format
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    sendResponse(false, "Invalid email format.");
-}
-
-// Validate phone number (10 digits)
-if (!preg_match('/^\d{10}$/', $number)) {
-    sendResponse(false, "Phone number must be a valid 10-digit number.");
-}
-
-// Hash password securely
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
 try {
-    // Create database connection using PDO
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Prepare SQL statement
-    $stmt = $conn->prepare("INSERT INTO registration (firstName, lastName, gender, email, password, number) VALUES (?, ?, ?, ?, ?, ?)");
-
-    // Execute statement with bindings
-    $stmt->execute([$firstName, $lastName, $gender, $email, $password, $number]);
-
-    // Success response
-    sendResponse(true, "Registration successful!");
-} catch (PDOException $e) {
-    // Database error response
-    sendResponse(false, "Database Error: " . $e->getMessage());
+    // Initialize database tables
+    $db = Database::getInstance();
+    $db->initializeTables();
+    
+    // Sanitize input data
+    $userData = [
+        'firstName' => Validator::sanitize($_POST['firstName'] ?? ''),
+        'lastName' => Validator::sanitize($_POST['lastName'] ?? ''),
+        'email' => Validator::sanitizeEmail($_POST['email'] ?? ''),
+        'password' => $_POST['password'] ?? '',
+        'phone' => isset($_POST['number']) ? Validator::sanitizePhone($_POST['number']) : null,
+        'gender' => $_POST['gender'] ?? ''
+    ];
+    
+    // Validate input data
+    $validator = new Validator($userData);
+    $validator->required('firstName')
+             ->required('lastName')
+             ->required('email')
+             ->email('email')
+             ->required('password')
+             ->minLength('password', AppConfig::PASSWORD_MIN_LENGTH)
+             ->required('gender')
+             ->in('gender', ['m', 'f', 'o']);
+    
+    if (!empty($userData['phone'])) {
+        $validator->phone('phone');
+    }
+    
+    if ($validator->fails()) {
+        sendResponse(false, $validator->getAllErrorMessages()[0]);
+    }
+    
+    // Register user
+    $result = $auth->register($userData);
+    
+    if ($result['success']) {
+        sendResponse(true, $result['message'], ['user_id' => $result['user_id']]);
+    } else {
+        sendResponse(false, $result['message']);
+    }
+    
 } catch (Exception $e) {
-    // General error response
-    sendResponse(false, "Error: " . $e->getMessage());
+    error_log('Registration error: ' . $e->getMessage());
+    sendResponse(false, "Registration failed. Please try again later.");
 }
 ?>
