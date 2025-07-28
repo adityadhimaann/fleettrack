@@ -1,52 +1,100 @@
 <?php
-session_start();
+require_once 'config.php';
+require_once 'classes/Database.php';
+require_once 'classes/Auth.php';
+require_once 'classes/Validator.php';
 
-// DB connection
-$servername = "localhost";
-$username = "root";
-$password = ""; // Your MySQL password
-$dbname = "fleetdb";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Connection check
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-// Check form submission
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
-  // Prepare & execute query
-  $stmt = $conn->prepare("SELECT id, full_name, password FROM users WHERE email = ?");
-  $stmt->bind_param("s", $email);
-  $stmt->execute();
-  $result = $stmt->get_result();
-
-  // Check user
-  if ($result->num_rows === 1) {
-    $user = $result->fetch_assoc();
-
-    // Verify password
-    if (password_verify($password, $user['password'])) {
-      // Set session
-      $_SESSION['user_id'] = $user['id'];
-      $_SESSION['user_name'] = $user['full_name'];
-
-      // Redirect to dashboard or home
-      header("Location: dashboard.php");
-      exit();
-    } else {
-      $error = "Invalid email or password.";
+// Function to send JSON response
+function sendResponse($success, $message, $data = null) {
+    header('Content-Type: application/json');
+    $response = [
+        'success' => $success,
+        'message' => $message
+    ];
+    
+    if ($data !== null) {
+        $response['data'] = $data;
     }
-  } else {
-    $error = "Invalid email or password.";
-  }
-
-  $stmt->close();
+    
+    echo json_encode($response);
+    exit;
 }
 
-$conn->close();
+// Handle AJAX login requests
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_SERVER['CONTENT_TYPE']) && 
+    strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+    
+    $input = json_decode(file_get_contents('php://input'), true);
+    
+    if (!$input) {
+        sendResponse(false, "Invalid request format.");
+    }
+    
+    try {
+        // Initialize database tables
+        $db = Database::getInstance();
+        $db->initializeTables();
+        
+        $auth = new Auth();
+        
+        // Validate input
+        $validator = new Validator($input);
+        $validator->required('email')
+                 ->email('email')
+                 ->required('password');
+        
+        if ($validator->fails()) {
+            sendResponse(false, $validator->getAllErrorMessages()[0]);
+        }
+        
+        $email = Validator::sanitizeEmail($input['email']);
+        $password = $input['password'];
+        $rememberMe = $input['remember_me'] ?? false;
+        
+        // Attempt login
+        $result = $auth->login($email, $password, $rememberMe);
+        
+        if ($result['success']) {
+            sendResponse(true, $result['message'], $result['user']);
+        } else {
+            sendResponse(false, $result['message']);
+        }
+        
+    } catch (Exception $e) {
+        error_log('Login error: ' . $e->getMessage());
+        sendResponse(false, "Login failed. Please try again later.");
+    }
+}
+
+// Handle traditional form submissions
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    try {
+        $db = Database::getInstance();
+        $db->initializeTables();
+        
+        $auth = new Auth();
+        
+        $email = Validator::sanitizeEmail($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $rememberMe = isset($_POST['remember_me']);
+        
+        if (empty($email) || empty($password)) {
+            $error = "Email and password are required.";
+        } else {
+            $result = $auth->login($email, $password, $rememberMe);
+            
+            if ($result['success']) {
+                // Redirect to dashboard
+                header("Location: index.html");
+                exit();
+            } else {
+                $error = $result['message'];
+            }
+        }
+        
+    } catch (Exception $e) {
+        error_log('Login error: ' . $e->getMessage());
+        $error = "Login failed. Please try again later.";
+    }
+}
 ?>
